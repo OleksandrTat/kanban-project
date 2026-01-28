@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+@layer base {
+  :root {
+    --background: 40 25% 98%;
+    --foreground: 30 10% 10%;
+    --card: 40 25% 99%;
+    --card-foreground: 30 10% 10%;
+    --popover: 40 25% 99%;
+    --popover-foreground: 30 10% 10%;
+    --primary: 28 85% 55%;
+    --primary-foreground: 40 25% 98%;
+    --secondary: 35 30% 88%;
+    --secondary-foreground: 30 10% 10%;
+    --muted: 35 20% 92%;
+    --muted-foreground: 30 8% 40%;
+    --accent: 28 75% 65%;
+    --accent-foreground: 30 10% 10%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 40 25% 98%;
+    --border: 35 20% 85%;
+    --input: 35 20% 85%;
+    --ring: 28 85% 55%;
+    --radius: 0.5rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Crimson Pro', serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Crimson Pro', serif;
+    font-weight: 700;
+  }
+  
+  code, pre, .mono {
+    font-family: 'DM Mono', monospace;
+  }
+}
+
+@layer utilities {
+  .animate-delay-100 {
+    animation-delay: 0.1s;
+  }
+  .animate-delay-200 {
+    animation-delay: 0.2s;
+  }
+  .animate-delay-300 {
+    animation-delay: 0.3s;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--accent));
+}
