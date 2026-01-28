@@ -1,0 +1,112 @@
+"use client";
+
+import { useState } from 'react';
+import { DndContext, DragEndEvent, DragOverlay, DragStartEvent, closestCorners, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { Task, TaskStatus } from '@/types';
+import { KanbanColumn } from './KanbanColumn';
+import { TaskCard } from './TaskCard';
+
+interface KanbanBoardProps {
+  tasks: Task[];
+  onMoveTask: (taskId: string, newStatus: TaskStatus) => void;
+  onEditTask: (task: Task) => void;
+  onDeleteTask: (taskId: string) => void;
+  godMode: boolean;
+}
+
+export function KanbanBoard({ tasks, onMoveTask, onEditTask, onDeleteTask, godMode }: KanbanBoardProps) {
+  const [activeTask, setActiveTask] = useState<Task | null>(null);
+  
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    })
+  );
+
+  const todoTasks = tasks.filter(t => t.estado === 'todo');
+  const doingTasks = tasks.filter(t => t.estado === 'doing');
+  const doneTasks = tasks.filter(t => t.estado === 'done');
+
+  function handleDragStart(event: DragStartEvent) {
+    const task = tasks.find(t => t.id === event.active.id);
+    setActiveTask(task || null);
+  }
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    
+    if (!over) {
+      setActiveTask(null);
+      return;
+    }
+
+    const taskId = active.id as string;
+    const newStatus = over.id as TaskStatus;
+
+    if (newStatus === 'todo' || newStatus === 'doing' || newStatus === 'done') {
+      onMoveTask(taskId, newStatus);
+    }
+
+    setActiveTask(null);
+  }
+
+  function handleDragCancel() {
+    setActiveTask(null);
+  }
+
+  return (
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCorners}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onDragCancel={handleDragCancel}
+    >
+      <div className="grid grid-cols-3 gap-6 h-full">
+        <KanbanColumn
+          id="todo"
+          title="Por Hacer"
+          tasks={todoTasks}
+          onEditTask={onEditTask}
+          onDeleteTask={onDeleteTask}
+          godMode={godMode}
+          color="bg-amber-50 border-amber-200"
+        />
+        <KanbanColumn
+          id="doing"
+          title="En Progreso"
+          tasks={doingTasks}
+          onEditTask={onEditTask}
+          onDeleteTask={onDeleteTask}
+          godMode={godMode}
+          color="bg-blue-50 border-blue-200"
+        />
+        <KanbanColumn
+          id="done"
+          title="Completado"
+          tasks={doneTasks}
+          onEditTask={onEditTask}
+          onDeleteTask={onDeleteTask}
+          godMode={godMode}
+          color="bg-green-50 border-green-200"
+        />
+      </div>
+
+      <DragOverlay>
+        {activeTask ? (
+          <div className="rotate-3 opacity-90">
+            <TaskCard
+              task={activeTask}
+              onEdit={() => {}}
+              onDelete={() => {}}
+              godMode={godMode}
+              isDragging
+            />
+          </div>
+        ) : null}
+      </DragOverlay>
+    </DndContext>
+  );
+}
