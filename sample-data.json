@@ -1,0 +1,186 @@
+{
+  "tasks": [
+    {
+      "id": "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
+      "titulo": "Implementar autenticación OAuth 2.0",
+      "descripcion": "Integrar Google y GitHub como proveedores de identidad. Incluir refresh tokens y manejo de sesiones.",
+      "prioridad": "high",
+      "tags": ["backend", "security", "auth"],
+      "estimacionMin": 240,
+      "fechaCreacion": "2026-01-20T10:00:00.000Z",
+      "fechaLimite": "2026-02-01T23:59:59.000Z",
+      "estado": "doing"
+    },
+    {
+      "id": "2b3c4d5e-6f7g-8h9i-0j1k-2l3m4n5o6p7q",
+      "titulo": "Diseñar sistema de notificaciones push",
+      "descripcion": "Arquitectura para web push notifications con Firebase Cloud Messaging. Incluir fallback a email.",
+      "prioridad": "medium",
+      "tags": ["frontend", "notifications", "firebase"],
+      "estimacionMin": 180,
+      "fechaCreacion": "2026-01-22T14:30:00.000Z",
+      "fechaLimite": "2026-02-05T23:59:59.000Z",
+      "estado": "todo"
+    },
+    {
+      "id": "3c4d5e6f-7g8h-9i0j-1k2l-3m4n5o6p7q8r",
+      "titulo": "Optimizar queries de base de datos",
+      "descripcion": "Añadir índices en tablas críticas. Revisar N+1 queries. Implementar caching con Redis.",
+      "prioridad": "high",
+      "tags": ["backend", "database", "performance"],
+      "estimacionMin": 300,
+      "fechaCreacion": "2026-01-18T09:15:00.000Z",
+      "fechaLimite": "2026-01-30T23:59:59.000Z",
+      "estado": "doing"
+    },
+    {
+      "id": "4d5e6f7g-8h9i-0j1k-2l3m-4n5o6p7q8r9s",
+      "titulo": "Crear componentes de gráficos reutilizables",
+      "descripcion": "Biblioteca de charts con Recharts: line, bar, pie, area. Responsive y con temas.",
+      "prioridad": "medium",
+      "tags": ["frontend", "components", "charts"],
+      "estimacionMin": 150,
+      "fechaCreacion": "2026-01-25T11:00:00.000Z",
+      "estado": "todo"
+    },
+    {
+      "id": "5e6f7g8h-9i0j-1k2l-3m4n-5o6p7q8r9s0t",
+      "titulo": "Implementar tests E2E con Playwright",
+      "descripcion": "Suite de tests para flujos críticos: login, checkout, pagos. CI/CD integration.",
+      "prioridad": "high",
+      "tags": ["testing", "e2e", "playwright"],
+      "estimacionMin": 420,
+      "fechaCreacion": "2026-01-15T08:00:00.000Z",
+      "fechaLimite": "2026-01-28T23:59:59.000Z",
+      "estado": "doing"
+    },
+    {
+      "id": "6f7g8h9i-0j1k-2l3m-4n5o-6p7q8r9s0t1u",
+      "titulo": "Migrar estilos a CSS Modules",
+      "descripcion": "Refactor gradual de styled-components a CSS Modules para mejorar bundle size.",
+      "prioridad": "low",
+      "tags": ["frontend", "refactor", "css"],
+      "estimacionMin": 90,
+      "fechaCreacion": "2026-01-26T16:45:00.000Z",
+      "estado": "todo"
+    },
+    {
+      "id": "7g8h9i0j-1k2l-3m4n-5o6p-7q8r9s0t1u2v",
+      "titulo": "Documentar API con OpenAPI 3.0",
+      "descripcion": "Generar docs interactivas con Swagger UI. Incluir ejemplos de requests/responses.",
+      "prioridad": "medium",
+      "tags": ["backend", "documentation", "api"],
+      "estimacionMin": 120,
+      "fechaCreacion": "2026-01-19T13:20:00.000Z",
+      "fechaLimite": "2026-02-10T23:59:59.000Z",
+      "estado": "done"
+    },
+    {
+      "id": "8h9i0j1k-2l3m-4n5o-6p7q-8r9s0t1u2v3w",
+      "titulo": "Configurar monorepo con Turborepo",
+      "descripcion": "Separar frontend, backend y shared packages. Pipeline de build optimizado.",
+      "prioridad": "low",
+      "tags": ["devops", "architecture", "monorepo"],
+      "estimacionMin": 360,
+      "fechaCreacion": "2026-01-21T10:30:00.000Z",
+      "estado": "todo"
+    },
+    {
+      "id": "9i0j1k2l-3m4n-5o6p-7q8r-9s0t1u2v3w4x",
+      "titulo": "Implementar rate limiting en API",
+      "descripcion": "Protección contra abuse con Redis. Límites por IP y por usuario autenticado.",
+      "prioridad": "high",
+      "tags": ["backend", "security", "redis"],
+      "estimacionMin": 90,
+      "fechaCreacion": "2026-01-23T15:00:00.000Z",
+      "fechaLimite": "2026-02-03T23:59:59.000Z",
+      "estado": "done"
+    },
+    {
+      "id": "0j1k2l3m-4n5o-6p7q-8r9s-0t1u2v3w4x5y",
+      "titulo": "Crear dashboard de métricas en tiempo real",
+      "descripcion": "WebSocket para datos live. KPIs: usuarios activos, requests/seg, errores.",
+      "prioridad": "medium",
+      "tags": ["frontend", "realtime", "dashboard"],
+      "estimacionMin": 270,
+      "fechaCreacion": "2026-01-24T12:15:00.000Z",
+      "estado": "todo"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "audit-001",
+      "timestamp": "2026-01-20T10:00:00.000Z",
+      "accion": "CREATE",
+      "taskId": "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
+      "diff": {
+        "despues": {
+          "titulo": "Implementar autenticación OAuth 2.0",
+          "estado": "todo",
+          "prioridad": "high"
+        }
+      },
+      "userLabel": "Alumno/a"
+    },
+    {
+      "id": "audit-002",
+      "timestamp": "2026-01-20T14:30:00.000Z",
+      "accion": "MOVE",
+      "taskId": "1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
+      "diff": {
+        "antes": {
+          "estado": "todo"
+        },
+        "despues": {
+          "estado": "doing"
+        }
+      },
+      "userLabel": "Alumno/a"
+    },
+    {
+      "id": "audit-003",
+      "timestamp": "2026-01-19T16:00:00.000Z",
+      "accion": "CREATE",
+      "taskId": "7g8h9i0j-1k2l-3m4n-5o6p-7q8r9s0t1u2v",
+      "diff": {
+        "despues": {
+          "titulo": "Documentar API con OpenAPI 3.0",
+          "estado": "todo",
+          "prioridad": "medium"
+        }
+      },
+      "userLabel": "Alumno/a"
+    },
+    {
+      "id": "audit-004",
+      "timestamp": "2026-01-19T18:45:00.000Z",
+      "accion": "MOVE",
+      "taskId": "7g8h9i0j-1k2l-3m4n-5o6p-7q8r9s0t1u2v",
+      "diff": {
+        "antes": {
+          "estado": "todo"
+        },
+        "despues": {
+          "estado": "doing"
+        }
+      },
+      "userLabel": "Alumno/a"
+    },
+    {
+      "id": "audit-005",
+      "timestamp": "2026-01-19T22:30:00.000Z",
+      "accion": "MOVE",
+      "taskId": "7g8h9i0j-1k2l-3m4n-5o6p-7q8r9s0t1u2v",
+      "diff": {
+        "antes": {
+          "estado": "doing"
+        },
+        "despues": {
+          "estado": "done"
+        }
+      },
+      "userLabel": "Alumno/a"
+    }
+  ],
+  "version": "1.0.0"
+}
