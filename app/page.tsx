@@ -30,20 +30,21 @@ export default function Home() {
   const [godMode, setGodMode] = useState(false);
   const [importErrors, setImportErrors] = useState<string[]>([]);
   const [showImportAlert, setShowImportAlert] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
 
   // Load data on mount
   useEffect(() => {
     const data = loadBoardData();
     setBoardData(data);
     setFilteredTasks(data.tasks);
+    setIsHydrated(true);
   }, []);
 
   // Save data whenever it changes
   useEffect(() => {
-    if (boardData.tasks.length > 0 || boardData.auditLogs.length > 0) {
-      saveBoardData(boardData);
-    }
-  }, [boardData]);
+    if (!isHydrated) return;
+    saveBoardData(boardData);
+  }, [boardData, isHydrated]);
 
   // Filter tasks based on search
   useEffect(() => {
@@ -180,10 +181,14 @@ export default function Home() {
               ...validation.data,
               auditLogs: [...validation.data.auditLogs, resolveLog],
             });
+            setShowImportAlert(false);
+            setImportErrors([]);
             toast.success('Datos importados (IDs duplicados fueron regenerados)');
           }
         } else if (validation.data) {
           setBoardData(validation.data);
+          setShowImportAlert(false);
+          setImportErrors([]);
           toast.success('Datos importados exitosamente');
         }
       } catch (error) {

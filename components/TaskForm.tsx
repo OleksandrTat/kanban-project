@@ -10,7 +10,7 @@ import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { Label } from './ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import { Badge } from './ui/badge';
 
@@ -57,6 +57,23 @@ export function TaskForm({ open, onOpenChange, onSubmit, initialData, title }: T
   });
 
   const prioridad = watch('prioridad');
+
+  useEffect(() => {
+    if (!open) return;
+
+    const nextTags = initialData?.tags || [];
+
+    setTags(nextTags);
+    setTagInput('');
+    reset({
+      titulo: initialData?.titulo || '',
+      descripcion: initialData?.descripcion || '',
+      prioridad: initialData?.prioridad || 'medium',
+      tags: nextTags,
+      estimacionMin: initialData?.estimacionMin || 30,
+      fechaLimite: initialData?.fechaLimite || '',
+    });
+  }, [initialData, open, reset]);
 
   const handleFormSubmit = (data: TaskFormData) => {
     onSubmit({ ...data, tags });

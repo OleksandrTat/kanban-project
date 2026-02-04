@@ -87,7 +87,9 @@ export function filterTasks(tasks: Task[], query: SearchQuery): Task[] {
     }
     
     // Due date filter
-    if (query.dueFilter && task.fechaLimite) {
+    if (query.dueFilter) {
+      if (!task.fechaLimite) return false;
+      
       const now = new Date();
       const dueDate = parseISO(task.fechaLimite);
       

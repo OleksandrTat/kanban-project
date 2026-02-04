@@ -43,9 +43,24 @@ export function KanbanBoard({ tasks, onMoveTask, onEditTask, onDeleteTask, godMo
     }
 
     const taskId = active.id as string;
-    const newStatus = over.id as TaskStatus;
+    const activeItem = tasks.find(t => t.id === taskId);
+    if (!activeItem) {
+      setActiveTask(null);
+      return;
+    }
 
-    if (newStatus === 'todo' || newStatus === 'doing' || newStatus === 'done') {
+    let newStatus: TaskStatus | null = null;
+
+    if (over.id === 'todo' || over.id === 'doing' || over.id === 'done') {
+      newStatus = over.id as TaskStatus;
+    } else {
+      const overTask = tasks.find(t => t.id === over.id);
+      if (overTask) {
+        newStatus = overTask.estado;
+      }
+    }
+
+    if (newStatus && newStatus !== activeItem.estado) {
       onMoveTask(taskId, newStatus);
     }
 
