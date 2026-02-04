@@ -220,7 +220,7 @@ export function SearchBar({
 
       <div className="flex flex-wrap items-center gap-2">
         <span className="text-xs text-muted-foreground">
-          Tip: en tags puedes escribir parte del nombre, ej: "front" encuentra "frontend".
+          Tip: en tags puedes escribir parte del nombre, ej: &quot;front&quot; encuentra &quot;frontend&quot;.
         </span>
         {(hasFilters || (resultsCount !== undefined && totalCount !== undefined)) && (
           <div className="ml-auto flex items-center gap-2">
