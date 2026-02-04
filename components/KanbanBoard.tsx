@@ -87,7 +87,7 @@ export function KanbanBoard({ tasks, onMoveTask, onEditTask, onDeleteTask, godMo
           onEditTask={onEditTask}
           onDeleteTask={onDeleteTask}
           godMode={godMode}
-          color="bg-amber-50 border-amber-200"
+          color="bg-stone-50 border-stone-200"
         />
         <KanbanColumn
           id="doing"
@@ -96,7 +96,7 @@ export function KanbanBoard({ tasks, onMoveTask, onEditTask, onDeleteTask, godMo
           onEditTask={onEditTask}
           onDeleteTask={onDeleteTask}
           godMode={godMode}
-          color="bg-blue-50 border-blue-200"
+          color="bg-sky-50 border-sky-200"
         />
         <KanbanColumn
           id="done"
@@ -105,7 +105,7 @@ export function KanbanBoard({ tasks, onMoveTask, onEditTask, onDeleteTask, godMo
           onEditTask={onEditTask}
           onDeleteTask={onDeleteTask}
           godMode={godMode}
-          color="bg-green-50 border-green-200"
+          color="bg-emerald-50 border-emerald-200"
         />
       </div>
 

@@ -2,29 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Spline+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 @layer base {
   :root {
-    --background: 40 25% 98%;
-    --foreground: 30 10% 10%;
-    --card: 40 25% 99%;
-    --card-foreground: 30 10% 10%;
-    --popover: 40 25% 99%;
-    --popover-foreground: 30 10% 10%;
-    --primary: 28 85% 55%;
-    --primary-foreground: 40 25% 98%;
-    --secondary: 35 30% 88%;
-    --secondary-foreground: 30 10% 10%;
-    --muted: 35 20% 92%;
-    --muted-foreground: 30 8% 40%;
-    --accent: 28 75% 65%;
-    --accent-foreground: 30 10% 10%;
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 40 25% 98%;
-    --border: 35 20% 85%;
-    --input: 35 20% 85%;
-    --ring: 28 85% 55%;
+    --background: 36 33% 96%;
+    --foreground: 220 20% 12%;
+    --card: 36 40% 98%;
+    --card-foreground: 220 20% 12%;
+    --popover: 36 40% 98%;
+    --popover-foreground: 220 20% 12%;
+    --primary: 171 48% 38%;
+    --primary-foreground: 36 33% 96%;
+    --secondary: 24 38% 90%;
+    --secondary-foreground: 220 20% 12%;
+    --muted: 30 25% 92%;
+    --muted-foreground: 220 10% 40%;
+    --accent: 172 45% 70%;
+    --accent-foreground: 220 20% 12%;
+    --destructive: 0 70% 48%;
+    --destructive-foreground: 36 33% 96%;
+    --border: 24 20% 82%;
+    --input: 24 20% 82%;
+    --ring: 171 48% 38%;
     --radius: 0.5rem;
   }
 
@@ -34,16 +34,21 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Crimson Pro', serif;
+    font-family: 'Spline Sans', sans-serif;
+    background-image:
+      radial-gradient(1200px 600px at 10% -10%, rgba(30, 120, 110, 0.08), transparent 60%),
+      radial-gradient(900px 700px at 100% 0%, rgba(40, 70, 90, 0.08), transparent 55%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0));
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Crimson Pro', serif;
+    font-family: 'Fraunces', serif;
     font-weight: 700;
+    letter-spacing: -0.02em;
   }
   
   code, pre, .mono {
-    font-family: 'DM Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
   }
 }
 

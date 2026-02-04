@@ -221,20 +221,20 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 p-6 lg:p-8 relative overflow-hidden">
-      <div className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-amber-300/30 blur-3xl" />
-      <div className="pointer-events-none absolute top-1/3 -left-20 h-96 w-96 rounded-full bg-orange-300/20 blur-3xl" />
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 via-emerald-50 to-slate-50 p-6 lg:p-8 relative overflow-hidden">
+      <div className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-emerald-300/20 blur-3xl" />
+      <div className="pointer-events-none absolute top-1/3 -left-20 h-96 w-96 rounded-full bg-slate-300/20 blur-3xl" />
       <Toaster position="top-right" />
       
       <div className="max-w-[1800px] mx-auto space-y-6 relative">
         {/* Header */}
-        <header className="space-y-6 rounded-3xl border bg-white/70 backdrop-blur p-6 shadow-sm">
+        <header className="space-y-6 rounded-3xl border bg-white/80 backdrop-blur p-6 shadow-sm">
           <div className="flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-mono text-amber-700">
+              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-mono text-emerald-800">
                 Auditoria activa
               </div>
-              <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mt-3 bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+              <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mt-3 bg-gradient-to-r from-emerald-700 to-slate-700 bg-clip-text text-transparent">
                 Kanban Auditor
               </h1>
               <p className="text-muted-foreground text-base sm:text-lg mt-2">
@@ -270,8 +270,8 @@ export default function Home() {
                 className="hidden"
               />
 
-              <div className="flex items-center gap-2 bg-amber-100 px-4 py-2 rounded-lg border border-amber-300">
-                <Crown className="h-4 w-4 text-amber-600" />
+              <div className="flex items-center gap-2 bg-emerald-100 px-4 py-2 rounded-lg border border-emerald-200">
+                <Crown className="h-4 w-4 text-emerald-700" />
                 <Switch
                   id="god-mode"
                   checked={godMode}
@@ -285,29 +285,29 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-            <Card className="bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200">
+            <Card className="bg-gradient-to-br from-stone-50 to-slate-50 border-stone-200">
               <CardContent className="pt-5">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-xs font-mono text-muted-foreground">Total</p>
                     <p className="text-2xl font-bold">{totalTasks}</p>
                   </div>
-                  <ListChecks className="h-6 w-6 text-amber-600" />
+                  <ListChecks className="h-6 w-6 text-slate-600" />
                 </div>
               </CardContent>
             </Card>
-            <Card className="bg-gradient-to-br from-blue-50 to-sky-50 border-blue-200">
+            <Card className="bg-gradient-to-br from-sky-50 to-cyan-50 border-sky-200">
               <CardContent className="pt-5">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-xs font-mono text-muted-foreground">Vence pronto</p>
                     <p className="text-2xl font-bold">{dueSoonTasks}</p>
                   </div>
-                  <Clock className="h-6 w-6 text-blue-600" />
+                  <Clock className="h-6 w-6 text-sky-600" />
                 </div>
               </CardContent>
             </Card>
-            <Card className="bg-gradient-to-br from-rose-50 to-red-50 border-rose-200">
+            <Card className="bg-gradient-to-br from-rose-50 to-amber-50 border-rose-200">
               <CardContent className="pt-5">
                 <div className="flex items-center justify-between">
                   <div>
@@ -318,14 +318,14 @@ export default function Home() {
                 </div>
               </CardContent>
             </Card>
-            <Card className="bg-gradient-to-br from-emerald-50 to-lime-50 border-emerald-200">
+            <Card className="bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-200">
               <CardContent className="pt-5">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-xs font-mono text-muted-foreground">Completadas</p>
                     <p className="text-2xl font-bold">{doneTasks}</p>
                   </div>
-                  <CheckCircle2 className="h-6 w-6 text-emerald-600" />
+                  <CheckCircle2 className="h-6 w-6 text-emerald-700" />
                 </div>
               </CardContent>
             </Card>
@@ -379,7 +379,7 @@ export default function Home() {
 
         {/* Main Content */}
         <Tabs defaultValue="board" className="space-y-4">
-          <TabsList className="grid w-full max-w-md grid-cols-3 bg-white/70 border border-amber-200 shadow-sm">
+          <TabsList className="grid w-full max-w-md grid-cols-3 bg-white/80 border border-stone-200 shadow-sm">
             <TabsTrigger value="board">Tablero</TabsTrigger>
             <TabsTrigger value="audit">Auditoría</TabsTrigger>
             {godMode && <TabsTrigger value="god">Evaluación</TabsTrigger>}

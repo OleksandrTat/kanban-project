@@ -35,9 +35,9 @@ export function TaskCard({ task, onEdit, onDelete, godMode, isDragging = false }
   };
 
   const priorityColors = {
-    low: 'bg-green-100 text-green-800 border-green-300',
-    medium: 'bg-yellow-100 text-yellow-800 border-yellow-300',
-    high: 'bg-red-100 text-red-800 border-red-300',
+    low: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+    medium: 'bg-amber-50 text-amber-800 border-amber-200',
+    high: 'bg-rose-50 text-rose-800 border-rose-200',
   };
 
   const priorityLabels = {
@@ -47,7 +47,7 @@ export function TaskCard({ task, onEdit, onDelete, godMode, isDragging = false }
   };
 
   const priorityAccent = {
-    low: 'border-l-green-400',
+    low: 'border-l-emerald-400',
     medium: 'border-l-amber-400',
     high: 'border-l-rose-500',
   };
@@ -143,14 +143,14 @@ export function TaskCard({ task, onEdit, onDelete, godMode, isDragging = false }
           <div className="pt-3 border-t space-y-2">
             {task.rubrica !== undefined && (
               <div className="flex items-center gap-2">
-                <Star className="h-4 w-4 text-amber-500 fill-amber-500" />
+                <Star className="h-4 w-4 text-emerald-600 fill-emerald-500" />
                 <span className="font-mono text-sm font-semibold">
                   {task.rubrica}/10
                 </span>
               </div>
             )}
             {task.observacionesJavi && (
-              <p className="text-xs text-muted-foreground italic bg-amber-50 p-2 rounded border border-amber-200">
+              <p className="text-xs text-muted-foreground italic bg-slate-50 p-2 rounded border border-slate-200">
                 &quot;{task.observacionesJavi}&quot;
               </p>
             )}

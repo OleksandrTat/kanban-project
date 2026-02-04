@@ -48,10 +48,10 @@ export function GodModePanel({ tasks, onUpdateTask }: GodModePanelProps) {
   return (
     <>
       <div className="space-y-4">
-        <Card className="bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200">
+        <Card className="bg-gradient-to-br from-emerald-50 to-slate-50 border-emerald-200">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Star className="h-5 w-5 text-amber-600 fill-amber-600" />
+              <Star className="h-5 w-5 text-emerald-700 fill-emerald-600" />
               Panel de Evaluación
             </CardTitle>
             <CardDescription>
@@ -67,7 +67,7 @@ export function GodModePanel({ tasks, onUpdateTask }: GodModePanelProps) {
                       <p className="text-sm text-muted-foreground">Media</p>
                       <p className="text-3xl font-bold">{averageRubrica.toFixed(1)}</p>
                     </div>
-                    <TrendingUp className="h-8 w-8 text-green-600" />
+                    <TrendingUp className="h-8 w-8 text-emerald-600" />
                   </div>
                 </CardContent>
               </Card>
@@ -79,7 +79,7 @@ export function GodModePanel({ tasks, onUpdateTask }: GodModePanelProps) {
                       <p className="text-sm text-muted-foreground">Evaluadas</p>
                       <p className="text-3xl font-bold">{tasksWithRubrica.length}</p>
                     </div>
-                    <CheckCircle2 className="h-8 w-8 text-blue-600" />
+                    <CheckCircle2 className="h-8 w-8 text-sky-600" />
                   </div>
                 </CardContent>
               </Card>
@@ -91,7 +91,7 @@ export function GodModePanel({ tasks, onUpdateTask }: GodModePanelProps) {
                       <p className="text-sm text-muted-foreground">Sin evaluar</p>
                       <p className="text-3xl font-bold">{tasksWithoutRubrica}</p>
                     </div>
-                    <AlertCircle className="h-8 w-8 text-orange-600" />
+                    <AlertCircle className="h-8 w-8 text-amber-600" />
                   </div>
                 </CardContent>
               </Card>
@@ -120,8 +120,8 @@ export function GodModePanel({ tasks, onUpdateTask }: GodModePanelProps) {
                             </p>
                           </div>
                           {task.rubrica !== undefined ? (
-                            <div className="flex items-center gap-1 text-amber-600">
-                              <Star className="h-4 w-4 fill-amber-600" />
+                            <div className="flex items-center gap-1 text-emerald-600">
+                              <Star className="h-4 w-4 fill-emerald-500" />
                               <span className="font-mono font-semibold">{task.rubrica}/10</span>
                             </div>
                           ) : (
@@ -193,3 +193,5 @@ export function GodModePanel({ tasks, onUpdateTask }: GodModePanelProps) {
     </>
   );
 }
+
+

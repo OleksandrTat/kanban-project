@@ -22,8 +22,8 @@ export function KanbanColumn({ id, title, tasks, onEditTask, onDeleteTask, godMo
   });
 
   const taskIds = tasks.map(t => t.id);
-  const accent = id === 'todo' ? 'bg-amber-400' : id === 'doing' ? 'bg-blue-400' : 'bg-emerald-400';
-  const accentSoft = id === 'todo' ? 'bg-amber-300/40' : id === 'doing' ? 'bg-blue-300/40' : 'bg-emerald-300/40';
+  const accent = id === 'todo' ? 'bg-slate-400' : id === 'doing' ? 'bg-sky-400' : 'bg-emerald-400';
+  const accentSoft = id === 'todo' ? 'bg-slate-300/40' : id === 'doing' ? 'bg-sky-300/40' : 'bg-emerald-300/40';
 
   return (
     <div className="flex flex-col h-full">
