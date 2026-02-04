@@ -97,8 +97,13 @@ export function copyToClipboard(text: string): Promise<void> {
     textArea.focus();
     textArea.select();
     return new Promise((resolve, reject) => {
-      document.execCommand('copy') ? resolve() : reject();
+      const success = document.execCommand('copy');
       textArea.remove();
+      if (success) {
+        resolve();
+      } else {
+        reject();
+      }
     });
   }
 }

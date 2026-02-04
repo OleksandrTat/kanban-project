@@ -211,7 +211,7 @@ export default function Home() {
           setImportErrors([]);
           toast.success('Datos importados exitosamente');
         }
-      } catch (error) {
+      } catch {
         setImportErrors(['Archivo JSON inválido']);
         setShowImportAlert(true);
       }

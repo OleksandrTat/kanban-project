@@ -43,7 +43,6 @@ export function GodModePanel({ tasks, onUpdateTask }: GodModePanelProps) {
     ? tasksWithRubrica.reduce((sum, t) => sum + (t.rubrica || 0), 0) / tasksWithRubrica.length
     : 0;
   const tasksWithoutRubrica = tasks.filter(t => t.rubrica === undefined).length;
-  const totalTasks = tasks.length;
 
   return (
     <>
