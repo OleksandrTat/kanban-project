@@ -37,10 +37,9 @@ export interface BoardData {
 
 export interface SearchQuery {
   texto?: string;
-  tags?: string[];
+  tagTexto?: string;
   prioridad?: Priority;
   dueFilter?: 'overdue' | 'week' | 'none';
   estimacionMin?: number;
   estimacionMax?: number;
-  estimacionOperator?: '<' | '>' | '<=' | '>=';
 }

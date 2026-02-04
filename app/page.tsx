@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import { Task, TaskStatus, BoardData, SearchQuery } from '@/types';
+import { useEffect, useMemo, useState } from 'react';
+import { Task, TaskStatus, BoardData, SearchQuery, Priority } from '@/types';
 import { KanbanBoard } from '@/components/KanbanBoard';
 import { TaskForm } from '@/components/TaskForm';
 import { SearchBar } from '@/components/SearchBar';
@@ -16,7 +16,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { loadBoardData, saveBoardData, downloadJSON, validateBoardData } from '@/lib/storage';
 import { createAuditLog } from '@/lib/audit';
-import { parseSearchQuery, filterTasks } from '@/lib/query';
+import { filterTasks } from '@/lib/query';
 import { Plus, Download, Upload, Crown, AlertCircle, ListChecks, Flame, Clock, CheckCircle2 } from 'lucide-react';
 import { Toaster, toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
@@ -25,7 +25,11 @@ import { addDays, isAfter, isBefore, isPast, parseISO } from 'date-fns';
 export default function Home() {
   const [boardData, setBoardData] = useState<BoardData>({ tasks: [], auditLogs: [], version: '1.0.0' });
   const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchText, setSearchText] = useState('');
+  const [tagSearch, setTagSearch] = useState('');
+  const [priorityFilter, setPriorityFilter] = useState<Priority | 'all'>('all');
+  const [dueFilter, setDueFilter] = useState<'all' | 'overdue' | 'week' | 'none'>('all');
+  const [estimationFilter, setEstimationFilter] = useState<'all' | 'lt60' | '60-120' | 'gte120'>('all');
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [deleteTaskId, setDeleteTaskId] = useState<string | null>(null);
@@ -44,13 +48,21 @@ export default function Home() {
     return isAfter(dueDate, now) && isBefore(dueDate, addDays(now, 7));
   }).length;
 
-  const quickFilters = [
-    { label: 'Urgentes', query: 'p:high' },
-    { label: 'Vencidas', query: 'due:overdue' },
-    { label: 'Semana', query: 'due:week' },
-    { label: 'Frontend', query: 'tag:frontend' },
-    { label: 'Backend', query: 'tag:backend' },
-  ];
+  const availableTags = useMemo(() => {
+    const counts = new Map<string, number>();
+    boardData.tasks.forEach(task => {
+      task.tags.forEach(tag => {
+        const cleaned = tag.trim();
+        if (!cleaned) return;
+        counts.set(cleaned, (counts.get(cleaned) || 0) + 1);
+      });
+    });
+
+    return [...counts.entries()]
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .map(([tag]) => tag)
+      .slice(0, 12);
+  }, [boardData.tasks]);
 
   // Load data on mount
   useEffect(() => {
@@ -68,14 +80,32 @@ export default function Home() {
 
   // Filter tasks based on search
   useEffect(() => {
-    if (searchQuery.trim() === '') {
-      setFilteredTasks(boardData.tasks);
-    } else {
-      const query: SearchQuery = parseSearchQuery(searchQuery);
-      const filtered = filterTasks(boardData.tasks, query);
-      setFilteredTasks(filtered);
+    const query: SearchQuery = {
+      texto: searchText.trim() || undefined,
+      tagTexto: tagSearch.trim() || undefined,
+      prioridad: priorityFilter === 'all' ? undefined : priorityFilter,
+      dueFilter: dueFilter === 'all' ? undefined : dueFilter,
+    };
+
+    if (estimationFilter === 'lt60') {
+      query.estimacionMax = 60;
+    } else if (estimationFilter === '60-120') {
+      query.estimacionMin = 60;
+      query.estimacionMax = 120;
+    } else if (estimationFilter === 'gte120') {
+      query.estimacionMin = 120;
     }
-  }, [searchQuery, boardData.tasks]);
+
+    const noFilters =
+      !query.texto &&
+      !query.tagTexto &&
+      !query.prioridad &&
+      !query.dueFilter &&
+      query.estimacionMin === undefined &&
+      query.estimacionMax === undefined;
+
+    setFilteredTasks(noFilters ? boardData.tasks : filterTasks(boardData.tasks, query));
+  }, [searchText, tagSearch, priorityFilter, dueFilter, estimationFilter, boardData.tasks]);
 
   const handleCreateTask = (data: Omit<Task, 'id' | 'estado' | 'fechaCreacion'>) => {
     const newTask: Task = {
@@ -220,6 +250,14 @@ export default function Home() {
     event.target.value = '';
   };
 
+  const clearFilters = () => {
+    setSearchText('');
+    setTagSearch('');
+    setPriorityFilter('all');
+    setDueFilter('all');
+    setEstimationFilter('all');
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-stone-50 via-emerald-50 to-slate-50 p-6 lg:p-8 relative overflow-hidden">
       <div className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-emerald-300/20 blur-3xl" />
@@ -333,7 +371,22 @@ export default function Home() {
 
           <div className="flex flex-col xl:flex-row xl:items-center gap-3">
             <div className="flex-1">
-              <SearchBar value={searchQuery} onChange={setSearchQuery} />
+              <SearchBar
+                textValue={searchText}
+                tagValue={tagSearch}
+                priority={priorityFilter}
+                due={dueFilter}
+                estimation={estimationFilter}
+                onTextChange={setSearchText}
+                onTagChange={setTagSearch}
+                onPriorityChange={setPriorityFilter}
+                onDueChange={setDueFilter}
+                onEstimationChange={setEstimationFilter}
+                onClear={clearFilters}
+                availableTags={availableTags}
+                resultsCount={filteredTasks.length}
+                totalCount={boardData.tasks.length}
+              />
             </div>
             <div className="flex items-center gap-2">
               <Button onClick={() => {
@@ -343,37 +396,7 @@ export default function Home() {
                 <Plus className="h-4 w-4" />
                 Nueva Tarea
               </Button>
-              {searchQuery.trim() !== '' && (
-                <Button
-                  variant="outline"
-                  onClick={() => setSearchQuery('')}
-                >
-                  Limpiar filtros
-                </Button>
-              )}
             </div>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-mono text-muted-foreground">
-              Filtros rapidos:
-            </span>
-            {quickFilters.map(filter => (
-              <Button
-                key={filter.label}
-                variant="secondary"
-                size="sm"
-                className="font-mono text-xs"
-                onClick={() => setSearchQuery(filter.query)}
-              >
-                {filter.label}
-              </Button>
-            ))}
-            {searchQuery.trim() !== '' && (
-              <span className="ml-auto text-xs font-mono text-muted-foreground">
-                Resultados: {filteredTasks.length}
-              </span>
-            )}
           </div>
         </header>
 

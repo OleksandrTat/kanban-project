@@ -221,7 +221,3 @@ interface AuditLog {
 3. **Actualizar este README** con tus enlaces reales
 4. **Capturar 3 screenshots** y guardarlas en `/docs/`
 5. **Entregar** el link de Vercel + link de GitHub
-
----
-
-**Desarrollado con ❤️ para la asignatura de Desarrollo Web**
