@@ -94,7 +94,7 @@ export function AuditLogViewer({ logs }: AuditLogViewerProps) {
         Mostrando {filteredLogs.length} de {logs.length} eventos
       </div>
 
-      <div className="border rounded-lg">
+      <div className="border rounded-lg bg-white/70 shadow-sm max-h-[520px] overflow-auto">
         {filteredLogs.length === 0 ? (
           <div className="p-12 text-center">
             <FileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground opacity-20" />
@@ -102,7 +102,7 @@ export function AuditLogViewer({ logs }: AuditLogViewerProps) {
           </div>
         ) : (
           <Table>
-            <TableHeader>
+            <TableHeader className="sticky top-0 z-10 bg-background/95 backdrop-blur">
               <TableRow>
                 <TableHead className="w-[180px]">Fecha/Hora</TableHead>
                 <TableHead className="w-[120px]">Acción</TableHead>

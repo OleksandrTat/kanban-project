@@ -11,14 +11,16 @@ import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { loadBoardData, saveBoardData, downloadJSON, validateBoardData } from '@/lib/storage';
 import { createAuditLog } from '@/lib/audit';
 import { parseSearchQuery, filterTasks } from '@/lib/query';
-import { Plus, Download, Upload, Crown, AlertCircle } from 'lucide-react';
+import { Plus, Download, Upload, Crown, AlertCircle, ListChecks, Flame, Clock, CheckCircle2 } from 'lucide-react';
 import { Toaster, toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
+import { addDays, isAfter, isBefore, isPast, parseISO } from 'date-fns';
 
 export default function Home() {
   const [boardData, setBoardData] = useState<BoardData>({ tasks: [], auditLogs: [], version: '1.0.0' });
@@ -31,6 +33,24 @@ export default function Home() {
   const [importErrors, setImportErrors] = useState<string[]>([]);
   const [showImportAlert, setShowImportAlert] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
+
+  const now = new Date();
+  const totalTasks = boardData.tasks.length;
+  const doneTasks = boardData.tasks.filter(task => task.estado === 'done').length;
+  const overdueTasks = boardData.tasks.filter(task => task.fechaLimite && isPast(parseISO(task.fechaLimite))).length;
+  const dueSoonTasks = boardData.tasks.filter(task => {
+    if (!task.fechaLimite) return false;
+    const dueDate = parseISO(task.fechaLimite);
+    return isAfter(dueDate, now) && isBefore(dueDate, addDays(now, 7));
+  }).length;
+
+  const quickFilters = [
+    { label: 'Urgentes', query: 'p:high' },
+    { label: 'Vencidas', query: 'due:overdue' },
+    { label: 'Semana', query: 'due:week' },
+    { label: 'Frontend', query: 'tag:frontend' },
+    { label: 'Backend', query: 'tag:backend' },
+  ];
 
   // Load data on mount
   useEffect(() => {
@@ -201,23 +221,28 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 p-6 lg:p-8 relative overflow-hidden">
+      <div className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-amber-300/30 blur-3xl" />
+      <div className="pointer-events-none absolute top-1/3 -left-20 h-96 w-96 rounded-full bg-orange-300/20 blur-3xl" />
       <Toaster position="top-right" />
       
-      <div className="max-w-[1800px] mx-auto space-y-6">
+      <div className="max-w-[1800px] mx-auto space-y-6 relative">
         {/* Header */}
-        <header className="space-y-4">
-          <div className="flex items-start justify-between">
+        <header className="space-y-6 rounded-3xl border bg-white/70 backdrop-blur p-6 shadow-sm">
+          <div className="flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">
             <div>
-              <h1 className="text-5xl font-bold tracking-tight mb-2 bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+              <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-mono text-amber-700">
+                Auditoria activa
+              </div>
+              <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mt-3 bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
                 Kanban Auditor
               </h1>
-              <p className="text-muted-foreground text-lg">
-                Sistema de gestión de tareas con auditoría completa
+              <p className="text-muted-foreground text-base sm:text-lg mt-2">
+                Sistema de gestion de tareas con auditoria completa
               </p>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2">
               <Button
                 variant="outline"
                 size="sm"
@@ -259,28 +284,109 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <SearchBar value={searchQuery} onChange={setSearchQuery} />
-            <Button onClick={() => {
-              setEditingTask(null);
-              setIsFormOpen(true);
-            }} className="gap-2 flex-shrink-0">
-              <Plus className="h-4 w-4" />
-              Nueva Tarea
-            </Button>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <Card className="bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200">
+              <CardContent className="pt-5">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-mono text-muted-foreground">Total</p>
+                    <p className="text-2xl font-bold">{totalTasks}</p>
+                  </div>
+                  <ListChecks className="h-6 w-6 text-amber-600" />
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="bg-gradient-to-br from-blue-50 to-sky-50 border-blue-200">
+              <CardContent className="pt-5">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-mono text-muted-foreground">Vence pronto</p>
+                    <p className="text-2xl font-bold">{dueSoonTasks}</p>
+                  </div>
+                  <Clock className="h-6 w-6 text-blue-600" />
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="bg-gradient-to-br from-rose-50 to-red-50 border-rose-200">
+              <CardContent className="pt-5">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-mono text-muted-foreground">Vencidas</p>
+                    <p className="text-2xl font-bold">{overdueTasks}</p>
+                  </div>
+                  <Flame className="h-6 w-6 text-rose-600" />
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="bg-gradient-to-br from-emerald-50 to-lime-50 border-emerald-200">
+              <CardContent className="pt-5">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-mono text-muted-foreground">Completadas</p>
+                    <p className="text-2xl font-bold">{doneTasks}</p>
+                  </div>
+                  <CheckCircle2 className="h-6 w-6 text-emerald-600" />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="flex flex-col xl:flex-row xl:items-center gap-3">
+            <div className="flex-1">
+              <SearchBar value={searchQuery} onChange={setSearchQuery} />
+            </div>
+            <div className="flex items-center gap-2">
+              <Button onClick={() => {
+                setEditingTask(null);
+                setIsFormOpen(true);
+              }} className="gap-2 flex-shrink-0">
+                <Plus className="h-4 w-4" />
+                Nueva Tarea
+              </Button>
+              {searchQuery.trim() !== '' && (
+                <Button
+                  variant="outline"
+                  onClick={() => setSearchQuery('')}
+                >
+                  Limpiar filtros
+                </Button>
+              )}
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-mono text-muted-foreground">
+              Filtros rapidos:
+            </span>
+            {quickFilters.map(filter => (
+              <Button
+                key={filter.label}
+                variant="secondary"
+                size="sm"
+                className="font-mono text-xs"
+                onClick={() => setSearchQuery(filter.query)}
+              >
+                {filter.label}
+              </Button>
+            ))}
+            {searchQuery.trim() !== '' && (
+              <span className="ml-auto text-xs font-mono text-muted-foreground">
+                Resultados: {filteredTasks.length}
+              </span>
+            )}
           </div>
         </header>
 
         {/* Main Content */}
         <Tabs defaultValue="board" className="space-y-4">
-          <TabsList className="grid w-full max-w-md grid-cols-3">
+          <TabsList className="grid w-full max-w-md grid-cols-3 bg-white/70 border border-amber-200 shadow-sm">
             <TabsTrigger value="board">Tablero</TabsTrigger>
             <TabsTrigger value="audit">Auditoría</TabsTrigger>
             {godMode && <TabsTrigger value="god">Evaluación</TabsTrigger>}
           </TabsList>
 
           <TabsContent value="board" className="space-y-4">
-            <div className="h-[calc(100vh-280px)]">
+            <div className="min-h-[560px] lg:h-[calc(100vh-360px)]">
               <KanbanBoard
                 tasks={filteredTasks}
                 onMoveTask={handleMoveTask}
@@ -367,3 +473,4 @@ export default function Home() {
     </div>
   );
 }
+

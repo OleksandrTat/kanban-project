@@ -46,24 +46,30 @@ export function TaskCard({ task, onEdit, onDelete, godMode, isDragging = false }
     high: 'Alta',
   };
 
+  const priorityAccent = {
+    low: 'border-l-green-400',
+    medium: 'border-l-amber-400',
+    high: 'border-l-rose-500',
+  };
+
   const isOverdue = task.fechaLimite && isPast(parseISO(task.fechaLimite));
 
   return (
     <Card
       ref={setNodeRef}
       style={style}
-      className={`cursor-grab active:cursor-grabbing hover:shadow-lg transition-shadow ${
-        isDragging ? 'shadow-2xl' : ''
-      }`}
+      className={`group cursor-grab active:cursor-grabbing hover:shadow-lg transition-shadow border-l-4 ${
+        priorityAccent[task.prioridad]
+      } ${isDragging ? 'shadow-2xl' : ''}`}
       {...attributes}
       {...listeners}
     >
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="font-semibold text-lg leading-tight flex-1">
+          <h3 className="font-semibold text-lg leading-tight flex-1 line-clamp-2">
             {task.titulo}
           </h3>
-          <div className="flex gap-1 flex-shrink-0">
+          <div className="flex gap-1 flex-shrink-0 opacity-70 group-hover:opacity-100 transition-opacity">
             <Button
               size="icon"
               variant="ghost"
@@ -94,7 +100,7 @@ export function TaskCard({ task, onEdit, onDelete, godMode, isDragging = false }
 
       <CardContent className="space-y-3">
         {task.descripcion && (
-          <p className="text-sm text-muted-foreground line-clamp-2">
+          <p className="text-sm text-muted-foreground line-clamp-3">
             {task.descripcion}
           </p>
         )}
@@ -122,6 +128,14 @@ export function TaskCard({ task, onEdit, onDelete, godMode, isDragging = false }
                 {format(parseISO(task.fechaLimite), 'dd MMM', { locale: es })}
               </span>
             </div>
+          )}
+          {task.fechaLimite && (
+            <Badge
+              variant={isOverdue ? 'destructive' : 'secondary'}
+              className="ml-auto text-[10px] uppercase tracking-wide"
+            >
+              {isOverdue ? 'Vencida' : 'Vence'}
+            </Badge>
           )}
         </div>
 

@@ -99,34 +99,40 @@ export function GodModePanel({ tasks, onUpdateTask }: GodModePanelProps) {
 
             <div className="space-y-2">
               <h3 className="font-semibold text-sm">Tareas disponibles</h3>
-              <div className="grid gap-2 max-h-[400px] overflow-y-auto">
-                {tasks.map(task => (
-                  <Card
-                    key={task.id}
-                    className="hover:shadow-md transition-shadow cursor-pointer"
-                    onClick={() => handleOpenEdit(task)}
-                  >
-                    <CardContent className="py-3">
-                      <div className="flex items-center justify-between">
-                        <div className="flex-1">
-                          <p className="font-medium">{task.titulo}</p>
-                          <p className="text-xs text-muted-foreground">
-                            Estado: {task.estado}
-                          </p>
-                        </div>
-                        {task.rubrica !== undefined ? (
-                          <div className="flex items-center gap-1 text-amber-600">
-                            <Star className="h-4 w-4 fill-amber-600" />
-                            <span className="font-mono font-semibold">{task.rubrica}/10</span>
+              {tasks.length === 0 ? (
+                <div className="rounded-lg border bg-white/70 p-6 text-center text-sm text-muted-foreground">
+                  No hay tareas para evaluar
+                </div>
+              ) : (
+                <div className="grid gap-2 max-h-[400px] overflow-y-auto">
+                  {tasks.map(task => (
+                    <Card
+                      key={task.id}
+                      className="hover:shadow-md transition-shadow cursor-pointer"
+                      onClick={() => handleOpenEdit(task)}
+                    >
+                      <CardContent className="py-3">
+                        <div className="flex items-center justify-between">
+                          <div className="flex-1">
+                            <p className="font-medium">{task.titulo}</p>
+                            <p className="text-xs text-muted-foreground">
+                              Estado: {task.estado}
+                            </p>
                           </div>
-                        ) : (
-                          <span className="text-xs text-muted-foreground">Sin evaluar</span>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+                          {task.rubrica !== undefined ? (
+                            <div className="flex items-center gap-1 text-amber-600">
+                              <Star className="h-4 w-4 fill-amber-600" />
+                              <span className="font-mono font-semibold">{task.rubrica}/10</span>
+                            </div>
+                          ) : (
+                            <span className="text-xs text-muted-foreground">Sin evaluar</span>
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>

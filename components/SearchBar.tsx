@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
-import { HelpCircle, Search } from 'lucide-react';
+import { HelpCircle, Search, X } from 'lucide-react';
 import { getSearchExamples } from '@/lib/query';
 
 interface SearchBarProps {
@@ -25,9 +25,19 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
           placeholder="Buscar tareas... (Ej: tag:backend p:high)"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="pl-10 font-mono"
+          className="pl-10 pr-9 font-mono"
           aria-label="Buscar tareas con filtros avanzados"
         />
+        {value.trim() !== '' && (
+          <button
+            type="button"
+            onClick={() => onChange('')}
+            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground hover:text-foreground hover:bg-muted"
+            aria-label="Limpiar busqueda"
+          >
+            <X className="h-3.5 w-3.5" />
+          </button>
+        )}
       </div>
 
       <Popover open={isOpen} onOpenChange={setIsOpen}>

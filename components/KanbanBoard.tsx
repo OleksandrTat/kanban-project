@@ -79,7 +79,7 @@ export function KanbanBoard({ tasks, onMoveTask, onEditTask, onDeleteTask, godMo
       onDragEnd={handleDragEnd}
       onDragCancel={handleDragCancel}
     >
-      <div className="grid grid-cols-3 gap-6 h-full">
+      <div className="grid gap-6 h-full grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
         <KanbanColumn
           id="todo"
           title="Por Hacer"
